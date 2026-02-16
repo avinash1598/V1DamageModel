@@ -2,7 +2,7 @@ function optParams = optimizeCASANDRE(stimVals, nChoice)
 
 % stimVals in degree
 
-addpath('/Users/avinashranjan/Desktop/UT Austin/Goris lab/Model_V1_damage/V1_DamageModel/Model/Scripts/')
+addpath('C:\Users\avinash1598\Desktop\V1DamageModel\V1DamageModel\Model\Scripts\')
 
 metaData.stimVals   = stimVals;
 metaData.nChoice    = nChoice;

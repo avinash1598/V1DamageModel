@@ -16,7 +16,9 @@ rng('shuffle'); % Ensures that different random numbers are generated every time
 % TODO: Add a check to ensure that the firing rate is not too large 
 % compared to the time window.
 
-nItr    = 1;
+addpath('C:\Users\avinash1598\Desktop\V1DamageModel\V1DamageModel\Model\Scripts');
+
+nItr    = 100;
 stimCnt = 101;
 
 psychometricFns          = zeros(nItr, stimCnt);
@@ -327,9 +329,9 @@ psychometricFnsByConf(run_itr, :, :)          = psycFnByConf;
 psychometricFnsDamagedByConf(run_itr, :, :)   = psychFnDamagedByConf;
 psychometricFnsAdjustedByConf(run_itr, :, :)  = psychFnAdjustedByConf;
 
-
 end
 
+%%
 data.fitParams           = fitParams;
 data.fitParamsV1Damaged  = fitParamsV1Damaged;
 data.fitParamsV1Adjusted = fitParamsV1Adjusted;
@@ -347,9 +349,44 @@ data.psychometricFnsByConf         = psychometricFnsByConf;
 data.psychometricFnsDamagedByConf  = psychometricFnsDamagedByConf;
 data.psychometricFnsAdjustedByConf = psychometricFnsAdjustedByConf;
 
+save("damagedV1_CASANDRE_fit_params_cc_4.mat", "data")
 
-save("damagedV1_CASANDRE_fit_params.mat", "data")
 
+%% Plot distribution of params
+figure
+
+subplot(2, 3, 1)
+hold on
+histogram(log(fitParams(1:90 , 3)), 1:0.5:30, DisplayName='Intact V1') % sigma_m
+histogram(log(fitParamsV1Damaged(1:90 , 3)), 1:0.5:30, DisplayName='Damaged V1') % sigma_m
+histogram(log(fitParamsV1Adjusted(1:90 , 3)), 1:0.5:30, DisplayName='Adjusted V1') % sigma_m
+hold off
+xlabel("\sigma_m")
+title("\sigma_m")
+xlim([0 30])
+legend
+
+subplot(2, 3, 2)
+hold on
+histogram(fitParams(1:90 , 1), 0:0.5:30, DisplayName='Intact V1') % sigma_d
+histogram(fitParamsV1Damaged(1:90 , 1), 0:0.5:30, DisplayName='Damaged V1') % sigma_d
+histogram(fitParamsV1Adjusted(1:90 , 1), 0:0.5:30, DisplayName='Adjusted V1') % sigma_d
+hold off
+xlabel("\sigma_d")
+title("\sigma_d")
+xlim([0 30])
+legend
+
+subplot(2, 3, 3)
+hold on
+histogram(fitParams(1:90 , 2), 0:0.5:5, DisplayName='Intact V1') % Cc
+histogram(fitParamsV1Damaged(1:90 , 2), 0:0.5:5, DisplayName='Damaged V1') % Cc
+histogram(fitParamsV1Adjusted(1:90 , 2), 0:0.5:5, DisplayName='Adjusted V1') % Cc
+hold off
+xlabel("Cc")
+title("Cc")
+xlim([0 5])
+legend
 
 %% Plot results
 close all
@@ -582,7 +619,7 @@ function [confVar, conf] = computeConfidenceSDT(thetaMLE, d_criteria, sigma)
 Vc = abs(thetaMLE - d_criteria) / sigma;
 confVar = Vc;
 
-c_criteria = 1.5;
+c_criteria = 4; % 1.5
 conf = confVar > c_criteria;
 
 % TODO: later apply some confidence criteria to categorize it into high and

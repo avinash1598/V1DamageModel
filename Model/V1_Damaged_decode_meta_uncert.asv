@@ -16,6 +16,8 @@ rng('shuffle'); % Ensures that different random numbers are generated every time
 % TODO: Add a check to ensure that the firing rate is not too large 
 % compared to the time window.
 
+addpath('C:\Users\avinash1598\Desktop\V1DamageModel\V1DamageModel\Model\Scripts');
+
 nItr    = 100;
 stimCnt = 101;
 
@@ -31,7 +33,10 @@ confFns                  = zeros(nItr, stimCnt);
 confFnsV1Damaged         = zeros(nItr, stimCnt);
 confFnsV1Adjusted        = zeros(nItr, stimCnt);
 
-
+nParams             = 3;
+fitParams           = zeros(nItr, nParams);
+fitParamsV1Damaged  = zeros(nItr, nParams);
+fitParamsV1Adjusted = zeros(nItr, nParams);
 
 for run_itr = 1:nItr
 % Each itr is evaluating probably a different session
@@ -307,6 +312,10 @@ optParamsV1Damaged  = optimizeCASANDRE(stimVals, nChoicesV1Damaged);
 optParamsV1Adjusted = optimizeCASANDRE(stimVals, nChoicesV1Adjusted);
 
 % Data to save
+fitParams(run_itr, :)           = optParamsV1Intact;       
+fitParamsV1Damaged(run_itr, :)  = optParamsV1Damaged; 
+fitParamsV1Adjusted(run_itr, :) = optParamsV1Adjusted;
+
 psychometricFns(run_itr, :)          = psychometricFn';
 psychometricFnsDamaged(run_itr, :)   = psychometricFnDamaged';
 psychometricFnsAdjusted(run_itr, :)  = psychometricFnAdjusted';
@@ -320,8 +329,12 @@ psychometricFnsByConf(run_itr, :, :)          = psycFnByConf;
 psychometricFnsDamagedByConf(run_itr, :, :)   = psychFnDamagedByConf;
 psychometricFnsAdjustedByConf(run_itr, :, :)  = psychFnAdjustedByConf;
 
-
 end
+
+%%
+data.fitParams           = fitParams;
+data.fitParamsV1Damaged  = fitParamsV1Damaged;
+data.fitParamsV1Adjusted = fitParamsV1Adjusted;
 
 data.psychometricFns                = psychometricFns;
 data.psychometricFnsDamaged         = psychometricFnsDamaged;
@@ -336,9 +349,44 @@ data.psychometricFnsByConf         = psychometricFnsByConf;
 data.psychometricFnsDamagedByConf  = psychometricFnsDamagedByConf;
 data.psychometricFnsAdjustedByConf = psychometricFnsAdjustedByConf;
 
-
 save("damagedV1_CASANDRE_fit_params.mat", "data")
 
+
+%% Plot distribution of params
+figure
+
+subplot(2, 3, 1)
+hold on
+histogram(fitParams(1:90 , 3), 1:0.5:30, DisplayName='Intact V1') % sigma_m
+histogram(fitParamsV1Damaged(1:90 , 3), 1:0.5:30, DisplayName='Damaged V1') % sigma_m
+histogram(fitParamsV1Adjusted(1:90 , 3), 1:0.5:30, DisplayName='Adjusted V1') % sigma_m
+hold off
+xlabel("\sigma_m")
+title("\sigma_m")
+xlim([0 30])
+legend
+
+subplot(2, 3, 2)
+hold on
+histogram(fitParams(1:90 , 1), 0:0.5:30, DisplayName='Intact V1') % sigma_d
+histogram(fitParamsV1Damaged(1:90 , 1), 0:0.5:30, DisplayName='Damaged V1') % sigma_d
+histogram(fitParamsV1Adjusted(1:90 , 1), 0:0.5:30, DisplayName='Adjusted V1') % sigma_d
+hold off
+xlabel("\sigma_d")
+title("\sigma_d")
+xlim([0 30])
+legend
+
+subplot(2, 3, 3)
+hold on
+histogram(fitParams(1:90 , 2), DisplayName='Intact V1') % Cc
+histogram(fitParamsV1Damaged(1:90 , 2), DisplayName='Damaged V1') % Cc
+histogram(fitParamsV1Adjusted(1:90 , 2), DisplayName='Adjusted V1') % Cc
+hold off
+xlabel("Cc")
+title("Cc")
+xlim([0 10])
+legend
 
 %% Plot results
 close all
@@ -430,10 +478,6 @@ legend([h1 h2 h3], ...
        'Location','best');
 
 legend([h1_ h2_ h3_], ...
-       {'Intact V1','Damaged V1','Adjusted V1'}, ...
-       'Location','best');
-
-legend([h1__ h2__ h3__], ...
        {'Intact V1','Damaged V1','Adjusted V1'}, ...
        'Location','best');
 
