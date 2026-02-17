@@ -25,7 +25,7 @@ nNeurons = 100;        % Number of neurons
 stimDuration = 1;      % Stimulus duration in seconds
 varGain = 0.5;         % Variance in gain for modulated Poisson process
 timeStep = 0.001;      % Time step (1ms) for binning the stimulus duration
-propDamaged = 0.8;     % Proportion of damaged neurons
+propDamaged = 0.5;     % Proportion of damaged neurons - some other value
 
 % Damaged neurons indexes
 nrnCntDamaged = floor( propDamaged*nNeurons );
@@ -859,7 +859,7 @@ function [confVar, conf] = computeConfidenceSDT(thetaMLE, d_criteria, sigma)
 Vc = abs(thetaMLE - d_criteria) / sigma;
 confVar = Vc;
 
-c_criteria = 1.5;
+c_criteria = 4;
 conf = confVar > c_criteria;
 
 % TODO: later apply some confidence criteria to categorize it into high and

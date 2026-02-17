@@ -353,17 +353,292 @@ save("damagedV1_CASANDRE_fit_params_damaged_prop_50.mat", "data")
 
 
 %% Plot distribution of params
+data = load("damagedV1_CASANDRE_fit_params_cc_4.mat", "data");
+data = data.data;
+uniqStim = unique(stimVector);
+
+fitParams           = data.fitParams;
+fitParamsV1Damaged  = data.fitParamsV1Damaged;
+fitParamsV1Adjusted = data.fitParamsV1Adjusted;
+
+y1 = median(fitParams(: , 3));
+y2 = median(fitParamsV1Damaged(: , 3));
+y3 = median(fitParamsV1Adjusted(: , 3));
+
+y1_mad = mad(fitParams(: , 3), 1);% flag is 1 so it's wrt to median
+y2_mad = mad(fitParamsV1Damaged(: , 3), 1);
+y3_mad = mad(fitParamsV1Adjusted(: , 3), 1);
+
+% y1 = mean(fitParams(: , 3));
+% y2 = mean(fitParamsV1Damaged(: , 3));
+% y3 = mean(fitParamsV1Adjusted(: , 3));
+% 
+% y1_mad = std(fitParams(: , 3), 1);% flag is 1 so it's wrt to median
+% y2_mad = std(fitParamsV1Damaged(: , 3), 1);
+% y3_mad = std(fitParamsV1Adjusted(: , 3), 1);
+
+
+figure('Color','w'); hold on
+
+subplot(2, 3, 1)
+
+x = 1:3;
+y = [y1 y2 y3];
+e = [y1_mad y2_mad y3_mad];
+
+h = errorbar(x, y, e, ...
+    'LineStyle', 'none', ...
+    'Marker', 'o', ...
+    'MarkerSize', 10, ...
+    'MarkerFaceColor', [0.2 0.4 0.8], ...
+    'MarkerEdgeColor', 'k', ...
+    'LineWidth', 1.8, ...
+    'CapSize', 12);
+
+hold off
+
+ax = gca;
+ax.FontSize = 12;
+ax.LineWidth = 1.2;
+ax.TickDir = 'out';
+ax.Box = 'off';
+
+xticks(1:3)
+xticklabels({'Intact V1','Damaged V1','Adjusted V1'})
+xlim([0 4])
+
+% xlabel('Proportion damaged','FontSize',13)
+ylabel('Median ± MAD','FontSize',13)
+title("Meta-uncertainty (\sigma_m)")
+% set(gca,'YScale','log')
+% legend('Location','best','Box','off')
+
+subplot(2, 3, 2)
+
+y1 = median(fitParams(: , 1));
+y2 = median(fitParamsV1Damaged(: , 1));
+y3 = median(fitParamsV1Adjusted(: , 1));
+
+y1_mad = mad(fitParams(: , 1), 1);% flag is 1 so it's wrt to median
+y2_mad = mad(fitParamsV1Damaged(: , 1), 1);
+y3_mad = mad(fitParamsV1Adjusted(: , 1), 1);
+
+% lw = 1.8;
+% ms = 6;
+
+x = 1:3;
+y = [y1 y2 y3];
+e = [y1_mad y2_mad y3_mad];
+
+h = errorbar(x, y, e, ...
+    'LineStyle', 'none', ...
+    'Marker', 'o', ...
+    'MarkerSize', 10, ...
+    'MarkerFaceColor', [0.2 0.4 0.8], ...
+    'MarkerEdgeColor', 'k', ...
+    'LineWidth', 1.8, ...
+    'CapSize', 12);
+
+hold off
+
+ax = gca;
+ax.FontSize = 12;
+ax.LineWidth = 1.2;
+ax.TickDir = 'out';
+ax.Box = 'off';
+
+xticks(1:3)
+xticklabels({'Intact V1','Damaged V1','Adjusted V1'})
+xlim([0 4])
+
+% xlabel('Proportion damaged','FontSize',13)
+ylabel('Median ± MAD','FontSize',13)
+title("Sensory uncertainty (\sigma_d)")
+% set(gca,'YScale','log')
+% legend('Location','best','Box','off')
+
+subplot(2, 3, 3)
+
+y1 = median(fitParams(: , 2));
+y2 = median(fitParamsV1Damaged(: , 2));
+y3 = median(fitParamsV1Adjusted(: , 2));
+
+y1_mad = mad(fitParams(: , 2), 1);% flag is 1 so it's wrt to median
+y2_mad = mad(fitParamsV1Damaged(: , 2), 1);
+y3_mad = mad(fitParamsV1Adjusted(: , 2), 1);
+
+% lw = 1.8;
+% ms = 6;
+
+x = 1:3;
+y = [y1 y2 y3];
+e = [y1_mad y2_mad y3_mad];
+
+h = errorbar(x, y, e, ...
+    'LineStyle', 'none', ...
+    'Marker', 'o', ...
+    'MarkerSize', 10, ...
+    'MarkerFaceColor', [0.2 0.4 0.8], ...
+    'MarkerEdgeColor', 'k', ...
+    'LineWidth', 1.8, ...
+    'CapSize', 12);
+
+hold off
+
+ax = gca;
+ax.FontSize = 12;
+ax.LineWidth = 1.2;
+ax.TickDir = 'out';
+ax.Box = 'off';
+
+xticks(1:3)
+xticklabels({'Intact V1','Damaged V1','Adjusted V1'})
+xlim([0 4])
+
+% xlabel('Proportion damaged','FontSize',13)
+ylabel('Median ± MAD','FontSize',13)
+title("Confidence criteria (Cc)")
+% set(gca,'YScale','log')
+% legend('Location','best','Box','off')
+
+
+y1 = mean(fitParams(: , 3));
+y2 = mean(fitParamsV1Damaged(: , 3));
+y3 = mean(fitParamsV1Adjusted(: , 3));
+
+y1_std = std(fitParams(: , 3), 1);% flag is 1 so it's wrt to median
+y2_std = std(fitParamsV1Damaged(: , 3), 1);
+y3_std = std(fitParamsV1Adjusted(: , 3), 1);
+
+subplot(2, 3, 4)
+
+x = 1:3;
+y = [y1 y2 y3];
+e = [y1_std y2_std y3_std];
+
+h = errorbar(x, y, e, ...
+    'LineStyle', 'none', ...
+    'Marker', 'o', ...
+    'MarkerSize', 10, ...
+    'MarkerFaceColor', [0.2 0.4 0.8], ...
+    'MarkerEdgeColor', 'k', ...
+    'LineWidth', 1.8, ...
+    'CapSize', 12);
+
+hold off
+
+ax = gca;
+ax.FontSize = 12;
+ax.LineWidth = 1.2;
+ax.TickDir = 'out';
+ax.Box = 'off';
+
+xticks(1:3)
+xticklabels({'Intact V1','Damaged V1','Adjusted V1'})
+xlim([0 4])
+
+% xlabel('Proportion damaged','FontSize',13)
+ylabel('Mean ± std','FontSize',13)
+title("Meta-uncertainty (\sigma_m)")
+% set(gca,'YScale','log')
+% legend('Location','best','Box','off')
+
+subplot(2, 3, 5)
+
+y1 = mean(fitParams(: , 1));
+y2 = mean(fitParamsV1Damaged(: , 1));
+y3 = mean(fitParamsV1Adjusted(: , 1));
+
+y1_std = std(fitParams(: , 1), 1);% flag is 1 so it's wrt to median
+y2_std = std(fitParamsV1Damaged(: , 1), 1);
+y3_std = std(fitParamsV1Adjusted(: , 1), 1);
+
+x = 1:3;
+y = [y1 y2 y3];
+e = [y1_std y2_std y3_std];
+
+h = errorbar(x, y, e, ...
+    'LineStyle', 'none', ...
+    'Marker', 'o', ...
+    'MarkerSize', 10, ...
+    'MarkerFaceColor', [0.2 0.4 0.8], ...
+    'MarkerEdgeColor', 'k', ...
+    'LineWidth', 1.8, ...
+    'CapSize', 12);
+
+hold off
+
+ax = gca;
+ax.FontSize = 12;
+ax.LineWidth = 1.2;
+ax.TickDir = 'out';
+ax.Box = 'off';
+
+xticks(1:3)
+xticklabels({'Intact V1','Damaged V1','Adjusted V1'})
+xlim([0 4])
+
+% xlabel('Proportion damaged','FontSize',13)
+ylabel('Mean ± std','FontSize',13)
+title("Sensory uncertainty (\sigma_d)")
+% set(gca,'YScale','log')
+% legend('Location','best','Box','off')
+
+subplot(2, 3, 6)
+
+y1 = mean(fitParams(: , 2));
+y2 = mean(fitParamsV1Damaged(: , 2));
+y3 = mean(fitParamsV1Adjusted(: , 2));
+
+y1_std = std(fitParams(: , 2), 1); % flag is 1 so it's wrt to median
+y2_std = std(fitParamsV1Damaged(: , 2), 1);
+y3_std = std(fitParamsV1Adjusted(: , 2), 1);
+
+x = 1:3;
+y = [y1 y2 y3];
+e = [y1_std y2_std y3_std];
+
+h = errorbar(x, y, e, ...
+    'LineStyle', 'none', ...
+    'Marker', 'o', ...
+    'MarkerSize', 10, ...
+    'MarkerFaceColor', [0.2 0.4 0.8], ...
+    'MarkerEdgeColor', 'k', ...
+    'LineWidth', 1.8, ...
+    'CapSize', 12);
+
+hold off
+
+ax = gca;
+ax.FontSize = 12;
+ax.LineWidth = 1.2;
+ax.TickDir = 'out';
+ax.Box = 'off';
+
+xticks(1:3)
+xticklabels({'Intact V1','Damaged V1','Adjusted V1'})
+xlim([0 4])
+
+% xlabel('Proportion damaged','FontSize',13)
+ylabel('Mean ± std','FontSize',13)
+title("Confidence criteria (Cc)")
+% set(gca,'YScale','log')
+% legend('Location','best','Box','off')
+
+% exportgraphics(gcf,'Figure_log.eps','ContentType','vector')
+
+
 figure
 
 subplot(2, 3, 1)
 hold on
-histogram(log(fitParams(1:90 , 3)), 1:0.5:30, DisplayName='Intact V1') % sigma_m
-histogram(log(fitParamsV1Damaged(1:90 , 3)), 1:0.5:30, DisplayName='Damaged V1') % sigma_m
-histogram(log(fitParamsV1Adjusted(1:90 , 3)), 1:0.5:30, DisplayName='Adjusted V1') % sigma_m
+histogram(fitParams(1:90 , 3),  DisplayName='Intact V1') % sigma_m 1:0.5:30,
+% histogram(fitParamsV1Damaged(1:90 , 3),  DisplayName='Damaged V1') % sigma_m 1:0.5:30,
+histogram(fitParamsV1Adjusted(1:90 , 3), DisplayName='Adjusted V1') % sigma_m
 hold off
 xlabel("\sigma_m")
 title("\sigma_m")
-xlim([0 30])
+% xlim([0 30])
 legend
 
 subplot(2, 3, 2)
@@ -391,109 +666,287 @@ legend
 %% Plot results
 close all
 
-figure
+psychometricFns = data.psychometricFns;
+psychometricFnsDamaged = data.psychometricFnsDamaged ;
+psychometricFnsAdjusted = data.psychometricFnsAdjusted;
+
+% SDT
+confFns = data.confFns;
+confFnsV1Damaged = data.confFnsV1Damaged;
+confFnsV1Adjusted = data.confFnsV1Adjusted;
+
+psychometricFnsByConf = data.psychometricFnsByConf;
+psychometricFnsDamagedByConf = data.psychometricFnsDamagedByConf;
+psychometricFnsAdjustedByConf = data.psychometricFnsAdjustedByConf;
+
+
+% figure
+% 
+% nItr = 100;
+% for i = 1:nItr
+%     
+%     subplot(2, 3, 1)
+%     hold on
+%     plot(rad2deg(uniqStim), psychometricFns(i, :), 'DisplayName', "Intact V1", 'Color', [0 0.7 0 0.2]); 
+%     plot(rad2deg(uniqStim), psychometricFnsDamaged(i, :), 'DisplayName', "Damaged V1", 'Color',[1 0 0 0.2]); 
+%     plot(rad2deg(uniqStim), psychometricFnsAdjusted(i, :), 'DisplayName', "Adjusted V1", 'Color',[0 0 1 0.2]); 
+%     
+%     h1 = plot(rad2deg(uniqStim), mean( psychometricFns, 1), DisplayName="Intact V1", Color=[0 0.7 0], LineWidth=1.5);
+%     h2 = plot(rad2deg(uniqStim), mean( psychometricFnsDamaged, 1), DisplayName="Damaged V1", Color="red", LineWidth=1.5);
+%     h3 = plot(rad2deg(uniqStim), mean( psychometricFnsAdjusted, 1), DisplayName="Adjusted V1", Color="blue", LineWidth=1.5);
+%     
+%     hold off
+%     xlabel("Orientation")
+%     ylabel("prop CCW")
+%     % legend
+%     
+%     subplot(2, 3, 2)
+%     hold on
+%     plot(psychometricFns(i, :), confFns(i, :), 'DisplayName', "Intact V1", 'Color', [0 0.7 0 0.2]); 
+%     plot(psychometricFnsDamaged(i, :), confFnsV1Damaged(i, :), 'DisplayName', "Damaged V1", 'Color',[1 0 0 0.2]); 
+%     plot(psychometricFnsAdjusted(i, :), confFnsV1Adjusted(i, :), 'DisplayName', "Adjusted V1", 'Color',[0 0 1 0.2]);  
+%     
+%     h1__ = plot(mean( psychometricFns, 1, 'omitnan'), mean( confFns, 1, 'omitnan'), DisplayName="Intact V1", Color=[0 0.7 0], LineWidth=1.5);
+%     h2__ = plot(mean( psychometricFnsDamaged, 1, 'omitnan'), mean( confFnsV1Damaged, 1, 'omitnan'), DisplayName="Damaged V1", Color="red", LineWidth=1.5);
+%     h3__ = plot(mean( psychometricFnsAdjusted, 1, 'omitnan'), mean( confFnsV1Adjusted, 1, 'omitnan'), DisplayName="Adjusted V1", Color="blue", LineWidth=1.5);
+%     
+%     hold off
+%     xlabel("Prop CCW")
+%     ylabel("Prop HC")
+%     % title("Bayesian")
+%     % legend
+%     
+%     subplot(2, 3, 3)
+%     hold on
+%     plot(rad2deg(uniqStim), confFns(i, :), 'DisplayName', "Intact V1", 'Color', [0 0.7 0 0.2]); 
+%     plot(rad2deg(uniqStim), confFnsV1Damaged(i, :), 'DisplayName', "Damaged V1", 'Color',[1 0 0 0.2]); 
+%     plot(rad2deg(uniqStim), confFnsV1Adjusted(i, :), 'DisplayName', "Adjusted V1", 'Color',[0 0 1 0.2]);  
+%     
+%     h1_ = plot(rad2deg(uniqStim), mean( confFns, 1), DisplayName="Intact V1", Color=[0 0.7 0], LineWidth=1.5);
+%     h2_ = plot(rad2deg(uniqStim), mean( confFnsV1Damaged, 1), DisplayName="Damaged V1", Color="red", LineWidth=1.5);
+%     h3_ = plot(rad2deg(uniqStim), mean( confFnsV1Adjusted, 1), DisplayName="Adjusted V1", Color="blue", LineWidth=1.5);
+%     
+%     hold off
+%     xlabel("Orientation")
+%     ylabel("prop HC")
+% 
+% 
+%     subplot(2, 3, 4)
+%     hold on
+%     plot(rad2deg(uniqStim), squeeze( psychometricFnsByConf(i, 1, :) ), 'DisplayName', "HC", 'Color', [0 0.7 0 0.2]); 
+%     plot(rad2deg(uniqStim), squeeze( psychometricFnsByConf(i, 2, :) ), 'DisplayName', "LC", 'Color',[1 0 0 0.2]); 
+%     
+%     d = squeeze(psychometricFnsByConf(:,1,:));
+%     hc1 = plot(rad2deg(uniqStim), mean( d , 1, 'omitnan'), DisplayName="HC", LineWidth=1.5, Color=[0 0.7 0]);
+%     d = squeeze(psychometricFnsByConf(:,2,:));
+%     lc1 = plot(rad2deg(uniqStim), mean( d, 1, 'omitnan'), DisplayName="LC", LineWidth=1.5, Color=[1 0 0]);
+%     
+%     hold off
+%     xlabel("Orientation")
+%     title("Intact V1")
+%     ylabel("prop CCW")
+% 
+%     subplot(2, 3, 5)
+%     hold on
+%     plot(rad2deg(uniqStim), squeeze( psychometricFnsDamagedByConf(i, 1, :) ), 'DisplayName', "HC", 'Color', [0 0.7 0 0.2]); 
+%     plot(rad2deg(uniqStim), squeeze( psychometricFnsDamagedByConf(i, 2, :) ), 'DisplayName', "LC", 'Color',[1 0 0 0.2]); 
+%     
+%     d = squeeze(psychometricFnsDamagedByConf(:,1,:));
+%     hc2 = plot(rad2deg(uniqStim), mean(d , 1, 'omitnan'), DisplayName="HC", LineWidth=1.5, Color=[0 0.7 0]);
+%     d = squeeze(psychometricFnsDamagedByConf(:,2,:));
+%     lc2 = plot(rad2deg(uniqStim), mean( d, 1, 'omitnan'), DisplayName="LC", LineWidth=1.5, Color=[1 0 0]);
+%     
+%     hold off
+%     xlabel("Orientation")
+%     title("Damaged V1")
+%     ylabel("prop CCW")
+%     
+%     subplot(2, 3, 6)
+%     hold on
+%     plot(rad2deg(uniqStim), squeeze( psychometricFnsAdjustedByConf(i, 1, :) ), 'DisplayName', "HC", 'Color', [0 0.7 0 0.2]); 
+%     plot(rad2deg(uniqStim), squeeze( psychometricFnsAdjustedByConf(i, 2, :) ), 'DisplayName', "LC", 'Color', [1 0 0 0.2]); 
+%     
+%     d = squeeze(psychometricFnsAdjustedByConf(:,1,:));
+%     hc3 = plot(rad2deg(uniqStim), mean(d , 1, 'omitnan'), DisplayName="HC", LineWidth=1.5, Color=[0 0.7 0]);
+%     d = squeeze(psychometricFnsAdjustedByConf(:,2,:));
+%     lc3 = plot(rad2deg(uniqStim), mean( d, 1, 'omitnan'), DisplayName="LC", LineWidth=1.5, Color=[1 0 0]);
+%     
+%     hold off
+%     xlabel("Orientation")
+%     title("Adjusted V1")
+%     ylabel("prop CCW")
+% 
+% end
+% 
+% legend([h1 h2 h3], ...
+%        {'Intact V1','Damaged V1','Adjusted V1'}, ...
+%        'Location','best');
+% 
+% legend([h1_ h2_ h3_], ...
+%        {'Intact V1','Damaged V1','Adjusted V1'}, ...
+%        'Location','best');
+% 
+% legend([h1__ h2__ h3__], ...
+%        {'Intact V1','Damaged V1','Adjusted V1'}, ...
+%        'Location','best');
+% 
+% legend([hc1 lc1], ...
+%        {'HC','LC'}, ...
+%        'Location','best');
+% 
+% legend([hc2 lc2], ...
+%        {'HC','LC'}, ...
+%        'Location','best');
+% 
+% legend([hc2 lc2], ...
+%        {'HC','LC'}, ...
+%        'Location','best');
+% 
+
+nItr = 100;
+
+% ----- Colors -----
+colIntact   = [0.0 0.6 0.0];
+colDamaged  = [0.85 0.2 0.2];
+colAdjusted = [0.2 0.3 0.85];
+
+lightIntact   = [colIntact 0.15];
+lightDamaged  = [colDamaged 0.15];
+lightAdjusted = [colAdjusted 0.15];
+
+% ----- Figure -----
+figure('Color','w','Units','inches','Position',[1 1 10 6])
+t = tiledlayout(2,3,'Padding','compact','TileSpacing','compact');
+
+% =====================
+% 1) Psychometric vs Orientation
+% =====================
+nexttile
+hold on
 
 for i = 1:nItr
-    
-    subplot(2, 3, 1)
-    hold on
-    plot(rad2deg(uniqStim), psychometricFns(i, :), 'DisplayName', "Intact V1", 'Color', [0 0.7 0 0.2]); 
-    plot(rad2deg(uniqStim), psychometricFnsDamaged(i, :), 'DisplayName', "Damaged V1", 'Color',[1 0 0 0.2]); 
-    plot(rad2deg(uniqStim), psychometricFnsAdjusted(i, :), 'DisplayName', "Adjusted V1", 'Color',[0 0 1 0.2]); 
-    
-    h1 = plot(rad2deg(uniqStim), mean( psychometricFns, 1), DisplayName="Intact V1", Color=[0 0.7 0], LineWidth=1.5);
-    h2 = plot(rad2deg(uniqStim), mean( psychometricFnsDamaged, 1), DisplayName="Damaged V1", Color="red", LineWidth=1.5);
-    h3 = plot(rad2deg(uniqStim), mean( psychometricFnsAdjusted, 1), DisplayName="Adjusted V1", Color="blue", LineWidth=1.5);
-
-    hold off
-    xlabel("Orientation")
-    ylabel("prop CCW")
-    % legend
-    
-    subplot(2, 3, 2)
-    hold on
-    plot(rad2deg(uniqStim), confFns(i, :), 'DisplayName', "Intact V1", 'Color', [0 0.7 0 0.2]); 
-    plot(rad2deg(uniqStim), confFnsV1Damaged(i, :), 'DisplayName', "Damaged V1", 'Color',[1 0 0 0.2]); 
-    plot(rad2deg(uniqStim), confFnsV1Adjusted(i, :), 'DisplayName', "Adjusted V1", 'Color',[0 0 1 0.2]);  
-    
-    h1_ = plot(rad2deg(uniqStim), mean( confFns, 1), DisplayName="Intact V1", Color=[0 0.7 0], LineWidth=1.5);
-    h2_ = plot(rad2deg(uniqStim), mean( confFnsV1Damaged, 1), DisplayName="Damaged V1", Color="red", LineWidth=1.5);
-    h3_ = plot(rad2deg(uniqStim), mean( confFnsV1Adjusted, 1), DisplayName="Adjusted V1", Color="blue", LineWidth=1.5);
-    
-    hold off
-    xlabel("Orientation")
-    ylabel("prop HC")
-    title("Bayesian")
-    % legend
-    
-    subplot(2, 3, 4)
-    hold on
-    plot(rad2deg(uniqStim), squeeze( psychometricFnsByConf(i, 1, :) ), 'DisplayName', "HC", 'Color', [0 0.7 0 0.2]); 
-    plot(rad2deg(uniqStim), squeeze( psychometricFnsByConf(i, 2, :) ), 'DisplayName', "LC", 'Color',[1 0 0 0.2]); 
-    
-    d = squeeze(psychometricFnsByConf(:,1,:));
-    hc1 = plot(rad2deg(uniqStim), mean( d , 1, 'omitnan'), DisplayName="HC", LineWidth=1.5, Color=[0 0.7 0]);
-    d = squeeze(psychometricFnsByConf(:,2,:));
-    lc1 = plot(rad2deg(uniqStim), mean( d, 1, 'omitnan'), DisplayName="LC", LineWidth=1.5, Color=[1 0 0]);
-    
-    hold off
-    xlabel("Orientation")
-    title("Intact V1")
-    ylabel("prop CCW")
-
-    subplot(2, 3, 5)
-    hold on
-    plot(rad2deg(uniqStim), squeeze( psychometricFnsDamagedByConf(i, 1, :) ), 'DisplayName', "HC", 'Color', [0 0.7 0 0.2]); 
-    plot(rad2deg(uniqStim), squeeze( psychometricFnsDamagedByConf(i, 2, :) ), 'DisplayName', "LC", 'Color',[1 0 0 0.2]); 
-    
-    d = squeeze(psychometricFnsDamagedByConf(:,1,:));
-    hc2 = plot(rad2deg(uniqStim), mean(d , 1, 'omitnan'), DisplayName="HC", LineWidth=1.5, Color=[0 0.7 0]);
-    d = squeeze(psychometricFnsDamagedByConf(:,2,:));
-    lc2 = plot(rad2deg(uniqStim), mean( d, 1, 'omitnan'), DisplayName="LC", LineWidth=1.5, Color=[1 0 0]);
-    
-    hold off
-    xlabel("Orientation")
-    title("Damaged V1")
-    ylabel("prop CCW")
-    
-    subplot(2, 3, 6)
-    hold on
-    plot(rad2deg(uniqStim), squeeze( psychometricFnsAdjustedByConf(i, 1, :) ), 'DisplayName', "HC", 'Color', [0 0.7 0 0.2]); 
-    plot(rad2deg(uniqStim), squeeze( psychometricFnsAdjustedByConf(i, 2, :) ), 'DisplayName', "LC", 'Color', [1 0 0 0.2]); 
-    
-    d = squeeze(psychometricFnsAdjustedByConf(:,1,:));
-    hc3 = plot(rad2deg(uniqStim), mean(d , 1, 'omitnan'), DisplayName="HC", LineWidth=1.5, Color=[0 0.7 0]);
-    d = squeeze(psychometricFnsAdjustedByConf(:,2,:));
-    lc3 = plot(rad2deg(uniqStim), mean( d, 1, 'omitnan'), DisplayName="LC", LineWidth=1.5, Color=[1 0 0]);
-    
-    hold off
-    xlabel("Orientation")
-    title("Adjusted V1")
-    ylabel("prop CCW")
-
+    plot(rad2deg(uniqStim), psychometricFns(i,:), 'Color', colIntact*0.7 + 0.3);
+    plot(rad2deg(uniqStim), psychometricFnsDamaged(i,:), 'Color', colDamaged*0.7 + 0.3);
+    plot(rad2deg(uniqStim), psychometricFnsAdjusted(i,:), 'Color', colAdjusted*0.7 + 0.3);
 end
 
-legend([h1 h2 h3], ...
-       {'Intact V1','Damaged V1','Adjusted V1'}, ...
-       'Location','best');
+h1 = plot(rad2deg(uniqStim), mean(psychometricFns,1), 'Color',colIntact,'LineWidth',2);
+h2 = plot(rad2deg(uniqStim), mean(psychometricFnsDamaged,1),'Color',colDamaged,'LineWidth',2);
+h3 = plot(rad2deg(uniqStim), mean(psychometricFnsAdjusted,1),'Color',colAdjusted,'LineWidth',2);
 
-legend([h1_ h2_ h3_], ...
-       {'Intact V1','Damaged V1','Adjusted V1'}, ...
-       'Location','best');
+xlabel('Orientation (deg)')
+ylabel('Prop. CCW')
+box off
+set(gca,'FontSize',11,'LineWidth',1,'TickDir','out')
 
-legend([hc1 lc1], ...
-       {'HC','LC'}, ...
-       'Location','best');
+legend([h1 h2 h3],{'Intact V1','Damaged V1','Adjusted V1'},'Location','best')
 
-legend([hc2 lc2], ...
-       {'HC','LC'}, ...
-       'Location','best');
-
-legend([hc2 lc2], ...
-       {'HC','LC'}, ...
-       'Location','best');
+% =====================
+% 2) Confidence vs Psychometric
+% =====================
+nexttile
+hold on
 
 
+for i = 1:nItr
+    plot(psychometricFns(i,:), confFns(i,:), 'Color', colIntact*0.7 + 0.3);
+    plot(psychometricFnsDamaged(i,:), confFnsV1Damaged(i,:), 'Color', colDamaged*0.7 + 0.3);
+    plot(psychometricFnsAdjusted(i,:), confFnsV1Adjusted(i,:), 'Color', colAdjusted*0.7 + 0.3);
+end
+
+x = psychometricFns(:);
+y = confFns(:);
+T = table(x,y);
+result = groupsummary(T,"x","mean","y");
+unique_x = result.x;
+mean_y   = result.mean_y;
+h1__ = plot(unique_x, mean_y, ...
+    'Color',colIntact,'LineWidth',2);
+
+x = psychometricFnsDamaged(:);
+y = confFnsV1Damaged(:);
+T = table(x,y);
+result = groupsummary(T,"x","mean","y");
+unique_x = result.x;
+mean_y   = result.mean_y;
+h2__ = plot(unique_x, ...
+    mean_y,'Color',colDamaged,'LineWidth',2);
+
+x = psychometricFnsAdjusted(:);
+y = confFnsV1Adjusted(:);
+T = table(x,y);
+result = groupsummary(T,"x","mean","y");
+unique_x = result.x;
+mean_y   = result.mean_y;
+h3__ = plot(unique_x, ...
+    mean_y,'Color',colAdjusted,'LineWidth',2);
+
+xlabel('Prop. CCW')
+ylabel('Prop. High Confidence')
+box off
+set(gca,'FontSize',11,'LineWidth',1,'TickDir','out')
+
+legend([h1__ h2__ h3__],{'Intact V1','Damaged V1','Adjusted V1'},'Location','best')
+
+% =====================
+% 3) Confidence vs Orientation
+% =====================
+nexttile
+hold on
+
+for i = 1:nItr
+    plot(rad2deg(uniqStim), confFns(i,:), 'Color', colIntact*0.7 + 0.3);
+    plot(rad2deg(uniqStim), confFnsV1Damaged(i,:), 'Color', colDamaged*0.7 + 0.3);
+    plot(rad2deg(uniqStim), confFnsV1Adjusted(i,:), 'Color', colAdjusted*0.7 + 0.3);
+end
+
+h1_ = plot(rad2deg(uniqStim), mean(confFns,1),'Color',colIntact,'LineWidth',2);
+h2_ = plot(rad2deg(uniqStim), mean(confFnsV1Damaged,1),'Color',colDamaged,'LineWidth',2);
+h3_ = plot(rad2deg(uniqStim), mean(confFnsV1Adjusted,1),'Color',colAdjusted,'LineWidth',2);
+
+xlabel('Orientation (deg)')
+ylabel('Prop. High Confidence')
+box off
+set(gca,'FontSize',11,'LineWidth',1,'TickDir','out')
+
+legend([h1_ h2_ h3_],{'Intact V1','Damaged V1','Adjusted V1'},'Location','best')
+
+% =====================
+% 4–6) By Confidence (HC vs LC)
+% =====================
+
+condData = {
+    psychometricFnsByConf,           'Intact V1';
+    psychometricFnsDamagedByConf,    'Damaged V1';
+    psychometricFnsAdjustedByConf,   'Adjusted V1'};
+
+for k = 1:3
+    nexttile
+    hold on
+    
+    data = condData{k,1};
+    
+    for i = 1:nItr
+        plot(rad2deg(uniqStim), squeeze(data(i,1,:)), 'Color',[0 0.6 0]*0.7 + 0.3);
+        plot(rad2deg(uniqStim), squeeze(data(i,2,:)), 'Color',[0.85 0.2 0.2]*0.7 + 0.3);
+    end
+    
+    hc = plot(rad2deg(uniqStim), mean(squeeze(data(:,1,:)),1,'omitnan'), ...
+        'Color',[0 0.6 0],'LineWidth',2);
+    lc = plot(rad2deg(uniqStim), mean(squeeze(data(:,2,:)),1,'omitnan'), ...
+        'Color',[0.85 0.2 0.2],'LineWidth',2);
+    
+    xlabel('Orientation (deg)')
+    ylabel('Prop. CCW')
+    title(condData{k,2})
+    box off
+    set(gca,'FontSize',11,'LineWidth',1,'TickDir','out')
+    
+    legend([hc lc],{'High Confidence','Low Confidence'},'Location','best')
+end
+
+% Export (vector format recommended)
+exportgraphics(gcf,'figure_psych_fns.eps','ContentType','vector')
 
 %%
 function [tuningParams] = getTuningParams(nNeurons)
