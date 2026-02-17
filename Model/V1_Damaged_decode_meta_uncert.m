@@ -50,7 +50,7 @@ nNeurons = 100;        % Number of neurons
 stimDuration = 1;      % Stimulus duration in seconds
 % varGain = 0.5;         % Variance in gain for modulated Poisson process
 timeStep = 0.001;      % Time step (1ms) for binning the stimulus duration
-propDamaged = 0.8;     % Proportion of damaged neurons
+propDamaged = 0.5;     % Proportion of damaged neurons
 
 % Damaged neurons indexes
 nrnCntDamaged = floor( propDamaged*nNeurons );
@@ -349,7 +349,7 @@ data.psychometricFnsByConf         = psychometricFnsByConf;
 data.psychometricFnsDamagedByConf  = psychometricFnsDamagedByConf;
 data.psychometricFnsAdjustedByConf = psychometricFnsAdjustedByConf;
 
-save("damagedV1_CASANDRE_fit_params_cc_4.mat", "data")
+save("damagedV1_CASANDRE_fit_params_damaged_prop_50.mat", "data")
 
 
 %% Plot distribution of params
